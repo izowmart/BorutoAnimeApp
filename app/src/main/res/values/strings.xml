@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BorutoApp</string>
+    <string name="app_logo">AppLogo</string>
+    <string name="search_icon">search_icon</string>
+</resources>
