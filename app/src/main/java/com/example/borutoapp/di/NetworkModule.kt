@@ -27,6 +27,7 @@ object NetworkModule {
             .readTimeout(15, TimeUnit.MINUTES)
             .connectTimeout(15,TimeUnit.MINUTES)
             .build()
+
     }
 
     @Provides
