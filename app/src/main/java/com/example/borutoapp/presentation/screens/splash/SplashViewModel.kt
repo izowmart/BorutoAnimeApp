@@ -3,9 +3,8 @@ package com.example.borutoapp.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.borutoapp.domain.usecase.UsesCases
+import com.example.borutoapp.domain.usecase.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    val usesCases: UsesCases
+    val useCases: UseCases
 ) : ViewModel() {
     private val _onBoardingCompleted = MutableStateFlow(false)
     val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
@@ -23,7 +22,7 @@ class SplashViewModel @Inject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _onBoardingCompleted.value =
-                usesCases.readOnBoardingUseCase().stateIn(viewModelScope).value
+                useCases.readOnBoardingUseCase().stateIn(viewModelScope).value
         }
     }
 

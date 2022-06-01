@@ -4,7 +4,8 @@ import android.content.Context
 import com.example.borutoapp.data.repository.DataStoreOperationsImpl
 import com.example.borutoapp.data.repository.Repository
 import com.example.borutoapp.domain.repository.DataStoreOperations
-import com.example.borutoapp.domain.usecase.UsesCases
+import com.example.borutoapp.domain.usecase.UseCases
+import com.example.borutoapp.domain.usecase.get_all_heroes.GetAllHeroesUseCase
 import com.example.borutoapp.domain.usecase.read_onboarding.ReadOnBoardingUseCase
 import com.example.borutoapp.domain.usecase.save_onboarding.SaveOnBoardingUseCase
 import dagger.Module
@@ -26,10 +27,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUseCases(repository: Repository) : UsesCases{
-        return UsesCases(
+    fun provideUseCases(repository: Repository) : UseCases{
+        return UseCases(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
-            readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
+            readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
+            getAllHeroesUseCase = GetAllHeroesUseCase(repository)
         )
     }
 }
