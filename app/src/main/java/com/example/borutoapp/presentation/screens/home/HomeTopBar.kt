@@ -1,4 +1,4 @@
-package com.example.borutoapp.presentation.home
+package com.example.borutoapp.presentation.screens.home
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.*

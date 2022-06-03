@@ -9,7 +9,7 @@ import com.example.borutoapp.data.local.BorutoDatabase
 import com.example.borutoapp.data.remote.BorutoApi
 import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.domain.model.HeroRemoteKeys
-import java.lang.Exception
+
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -22,7 +22,6 @@ class HeroRemoteMediator @Inject constructor(
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Hero>): MediatorResult {
         return try {
-
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -52,11 +51,13 @@ class HeroRemoteMediator @Inject constructor(
                         heroDao.deletedAllHeroes()
                         heroRemoteKeysDao.deleteAllRemoteKeys()
                     }
+                    val prevPage = response.prevPage
+                    val nextPage = response.nextPage
                     val keys = response.heroes.map { hero ->
                         HeroRemoteKeys(
                             id = hero.id,
-                            prevPage = response.prePage,
-                            nextPage = response.nextPage,
+                            prevPage = prevPage,
+                            nextPage = nextPage,
                             lastUpdated = null
                         )
                     }

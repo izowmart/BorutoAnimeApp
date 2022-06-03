@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
@@ -20,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.borutoapp.R
+import com.example.borutoapp.ui.theme.EXTRA_SMALL_PADDING
 import com.example.borutoapp.ui.theme.LightGray
 import com.example.borutoapp.ui.theme.StarColor
-import com.example.borutoapp.util.Constants.EXTRA_SMALL_PADDING
 
 @Composable
 fun RatingWidget(
@@ -159,7 +158,6 @@ fun EmptyStar(
             }
 
         }
-
 
     }
 }

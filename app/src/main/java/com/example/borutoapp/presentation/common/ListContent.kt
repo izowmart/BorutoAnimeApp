@@ -11,19 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.example.borutoapp.R
 import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.navigation.Screen
@@ -75,6 +75,16 @@ fun HeroItem(
         contentAlignment = Alignment.BottomStart
     ) {
         Surface(shape = RoundedCornerShape(size = LARGE_PADDING)) {
+//            AsyncImage(
+//                modifier = Modifier.fillMaxSize(),
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(data = "$BASE_URL${hero.image}")
+//                    .placeholder(drawableResId = R.drawable.placeholder)
+//                    .error(drawableResId = R.drawable.placeholder)
+//                    .build(),
+//                contentDescription = stringResource(id = R.string.hero_image),
+//                contentScale = ContentScale.Crop
+//            )
             Image(
                 modifier = Modifier.fillMaxSize(),
                 painter = painter,
@@ -127,7 +137,6 @@ fun HeroItem(
                     )
                 }
             }
-
 
         }
 
