@@ -9,6 +9,8 @@ import com.example.borutoapp.data.local.BorutoDatabase
 import com.example.borutoapp.data.remote.BorutoApi
 import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.domain.model.HeroRemoteKeys
+import java.text.SimpleDateFormat
+import java.util.*
 
 import javax.inject.Inject
 
@@ -19,6 +21,21 @@ class HeroRemoteMediator @Inject constructor(
 ) : RemoteMediator<Int, Hero>() {
     private val heroDao = borutoDatabase.heroDao()
     private val heroRemoteKeysDao = borutoDatabase.heroRemoteKeysDao()
+
+
+    override suspend fun initialize(): InitializeAction {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated = heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated ?: 0L
+        val cacheTimeout = 1440 // We shall request for a refresh or new data from server only after 24hrs of using local cached data
+
+        val diffInMinutes = (currentTime - lastUpdated) / (1000 * 60)
+        return if (diffInMinutes.toInt() <= cacheTimeout) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Hero>): MediatorResult {
         return try {
@@ -72,7 +89,7 @@ class HeroRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Hero>): HeroRemoteKeys? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let{hero ->
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { hero ->
             heroRemoteKeysDao.getRemoteKeys(heroId = hero.id)
         }
     }
@@ -90,6 +107,12 @@ class HeroRemoteMediator @Inject constructor(
                 heroRemoteKeysDao.getRemoteKeys(heroId = id)
             }
         }
+    }
+    // A simple method for formatting dates in a readable format
+    private fun parseMillis(millis : Long): String{
+        val date = Date(millis)
+        val format = SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.ROOT)
+        return format.format(date)
     }
 
 }
