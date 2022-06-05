@@ -56,7 +56,6 @@ fun SearchWidget(
         color = MaterialTheme.colors.topAppBarBackgroundColor,
         elevation = AppBarDefaults.TopAppBarElevation
     ) {
-
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = text,
