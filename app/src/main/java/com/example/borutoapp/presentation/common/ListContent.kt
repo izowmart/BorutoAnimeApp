@@ -41,7 +41,7 @@ fun ListContent(
 ) {
 
     val result = handlePagingResult(heroes = heroes)
-    if (result){
+    if (result) {
         LazyColumn(
             contentPadding = PaddingValues(all = SMALL_PADDING),
             verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
@@ -81,7 +81,11 @@ fun handlePagingResult(
                 false
             }
             error != null -> {
-                EmptyScreen(error = error)
+                EmptyScreen(error = error, heroes = heroes)
+                false
+            }
+            heroes.itemCount < 1 ->{
+                EmptyScreen()
                 false
             }
             else -> true

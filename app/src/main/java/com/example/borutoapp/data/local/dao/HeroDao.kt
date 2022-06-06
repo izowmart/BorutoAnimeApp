@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.borutoapp.domain.model.Hero
 
+
 @Dao
 interface HeroDao {
     @Query("SELECT * FROM hero_table ORDER BY id ASC")
