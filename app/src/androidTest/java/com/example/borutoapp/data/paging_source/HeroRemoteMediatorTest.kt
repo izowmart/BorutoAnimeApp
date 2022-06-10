@@ -35,8 +35,6 @@ class HeroRemoteMediatorTest {
         borutoDatabase.clearAllTables()
     }
 
-
-
     @Test
     fun refreshLoadReturnsSuccessResultWhenMoreDataIsPresent() =
         runBlocking {

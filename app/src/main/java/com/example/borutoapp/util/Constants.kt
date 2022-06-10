@@ -4,7 +4,8 @@ import androidx.compose.ui.unit.dp
 
 object Constants {
 
-    const val BASE_URL = "http://192.168.114.164:8080"
+//    const val BASE_URL = "http://192.168.114.164:8080"
+    const val BASE_URL = "https://boruto-server-application.herokuapp.com/"
 
     const val DETAILS_ARGUMENT_KEY = "heroId"
 
