@@ -1,9 +1,11 @@
 package com.example.borutoapp.presentation.screens.search
 
+import android.view.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,9 +26,13 @@ fun SearchScreen(
     val heroes = searchViewModel.searchedHeroes.collectAsLazyPagingItems()
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
-        color = MaterialTheme.colors.statusBarColor
-    )
+    val statusBarColor = MaterialTheme.colors.statusBarColor
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = statusBarColor
+        )
+    }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
