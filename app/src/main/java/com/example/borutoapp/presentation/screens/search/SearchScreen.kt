@@ -1,6 +1,5 @@
 package com.example.borutoapp.presentation.screens.search
 
-import android.view.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -27,6 +26,7 @@ fun SearchScreen(
 
     val systemUiController = rememberSystemUiController()
     val statusBarColor = MaterialTheme.colors.statusBarColor
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = statusBarColor

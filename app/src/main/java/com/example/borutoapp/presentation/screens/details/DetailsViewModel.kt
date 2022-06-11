@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val useCases: UseCases,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _selectedHero: MutableStateFlow<Hero?> = MutableStateFlow(null)
@@ -27,30 +27,28 @@ class DetailsViewModel @Inject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val heroId = savedStateHandle.get<Int>(DETAILS_ARGUMENT_KEY)
-            _selectedHero.value = heroId?.let { id ->
-                useCases.getSelectedHeroUseCase(id)
-            }
+            _selectedHero.value = heroId?.let { useCases.getSelectedHeroUseCase(heroId = heroId) }
         }
     }
 
-    private val _uiEvent = MutableSharedFlow<UIEvent>()
-    val uiEvent: SharedFlow<UIEvent> = _uiEvent.asSharedFlow()
+    private val _uiEvent = MutableSharedFlow<UiEvent>()
+    val uiEvent: SharedFlow<UiEvent> = _uiEvent.asSharedFlow()
 
     private val _colorPalette: MutableState<Map<String, String>> = mutableStateOf(mapOf())
     val colorPalette: State<Map<String, String>> = _colorPalette
 
-    fun generateColorPalette(){
+    fun generateColorPalette() {
         viewModelScope.launch {
-            _uiEvent.emit(UIEvent.GenerateColorPalette)
+            _uiEvent.emit(UiEvent.GenerateColorPalette)
         }
     }
 
-    fun setColorPalette(colors: Map<String, String>){
+    fun setColorPalette(colors: Map<String, String>) {
         _colorPalette.value = colors
     }
 
 }
 
-sealed class UIEvent {
-    object GenerateColorPalette : UIEvent()
+sealed class UiEvent {
+    object GenerateColorPalette : UiEvent()
 }

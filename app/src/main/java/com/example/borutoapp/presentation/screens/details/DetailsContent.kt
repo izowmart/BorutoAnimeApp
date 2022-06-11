@@ -2,9 +2,7 @@ package com.example.borutoapp.presentation.screens.details
 
 import android.graphics.Color.parseColor
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,13 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.borutoapp.R
 import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.presentation.common.OrderedList
@@ -30,7 +31,6 @@ import com.example.borutoapp.ui.theme.*
 import com.example.borutoapp.util.Constants.ABOUT_TEXT_MAX_LINES
 import com.example.borutoapp.util.Constants.BASE_URL
 import com.example.borutoapp.util.Constants.MIN_BACKGROUND_IMAGE_HEIGHT
-import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @ExperimentalCoilApi
@@ -57,7 +57,6 @@ fun DetailsContent(
             color = Color(parseColor(darkVibrant))
         )
     }
-
 
 
     val scaffoldState = rememberBottomSheetScaffoldState(
@@ -104,7 +103,6 @@ fun DetailsContent(
 
 }
 
-@ExperimentalCoilApi
 @Composable
 fun BackgroundContent(
     heroImage: String,
@@ -113,31 +111,36 @@ fun BackgroundContent(
     onCloseClicked: () -> Unit
 ) {
     val image = "$BASE_URL$heroImage"
-    val painter = rememberImagePainter(data = image) {
-        error(R.drawable.placeholder)
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        Image(
+        // load image using coin library
+        AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = imageFraction + MIN_BACKGROUND_IMAGE_HEIGHT),
-            painter = painter,
-            contentDescription = stringResource(id = R.string.hero_image)
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = image)
+                .error(R.drawable.placeholder)
+                .build(),
+            contentDescription = stringResource(R.string.hero_image),
+            contentScale = ContentScale.Crop
         )
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            Icon(
-                modifier = Modifier
-                    .padding(all = SMALL_PADDING)
-                    .size(INFO_ICON_SIZE)
-                    .clickable { onCloseClicked() },
-                imageVector = Icons.Default.Close,
-                contentDescription = stringResource(id = R.string.close_icon)
-            )
+            IconButton(
+                modifier = Modifier.padding(all = SMALL_PADDING),
+                onClick = { onCloseClicked() }
+            ) {
+                Icon(
+                    modifier = Modifier.size(INFO_ICON_SIZE),
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(R.string.close_icon),
+                    tint = Color.White
+                )
+            }
         }
     }
 }
@@ -214,7 +217,7 @@ fun BottomSheetContent(
         Text(
             modifier = Modifier
                 .alpha(ContentAlpha.medium)
-                .padding(bottom = SMALL_PADDING),
+                .padding(bottom = MEDIUM_PADDING),
             text = selectedHero.about,
             color = contentColor,
             fontSize = MaterialTheme.typography.body1.fontSize,
@@ -256,7 +259,7 @@ val BottomSheetScaffoldState.currentSheetFraction: Float
             currentValue == BottomSheetValue.Collapsed && targetValue == BottomSheetValue.Collapsed -> 1f
             currentValue == BottomSheetValue.Expanded && targetValue == BottomSheetValue.Expanded -> 0f
             currentValue == BottomSheetValue.Collapsed && targetValue == BottomSheetValue.Expanded -> 1f - fraction
-            currentValue == BottomSheetValue.Expanded && targetValue == BottomSheetValue.Collapsed -> 1f + fraction
+            currentValue == BottomSheetValue.Expanded && targetValue == BottomSheetValue.Collapsed -> 0f + fraction
             else -> fraction
         }
     }

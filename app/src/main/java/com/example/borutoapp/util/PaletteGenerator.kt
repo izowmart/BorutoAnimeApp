@@ -2,7 +2,6 @@ package com.example.borutoapp.util
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import androidx.palette.graphics.Palette
 import coil.ImageLoader

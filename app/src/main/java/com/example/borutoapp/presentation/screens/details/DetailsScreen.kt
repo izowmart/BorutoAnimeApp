@@ -1,6 +1,6 @@
 package com.example.borutoapp.presentation.screens.details
 
-import android.os.Build.VERSION_CODES.BASE
+
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,9 +10,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
+import com.example.borutoapp.util.Constants.BASE_URL
 import com.example.borutoapp.util.PaletteGenerator.convertImageUrlToBitmap
 import com.example.borutoapp.util.PaletteGenerator.extractColorsFromBitmap
 import kotlinx.coroutines.flow.collectLatest
+
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -39,9 +41,9 @@ fun DetailsScreen(
     LaunchedEffect(key1 = true) {
         detailsViewModel.uiEvent.collectLatest { event ->
             when (event) {
-                is UIEvent.GenerateColorPalette -> {
+                is UiEvent.GenerateColorPalette -> {
                     val bitmap = convertImageUrlToBitmap(
-                        imageUrl = "$BASE${selectedHero?.image}",
+                        imageUrl = "$BASE_URL${selectedHero?.image}",
                         context = context
                     )
                     if (bitmap != null) {
