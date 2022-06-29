@@ -21,7 +21,7 @@ class RemoteDataSourceImpl(
     private val heroDao = borutoDatabase.heroDao()
 
     override fun getAllHeroes(): Flow<PagingData<Hero>> {
-        val pagingSourceFactory = { heroDao.getAllHeroes() }
+        val pagingSourceFactory = {heroDao.getAllHeroes() }
         return Pager(
             config = PagingConfig(pageSize = ITEMS_PER_PAGE),
             remoteMediator = HeroRemoteMediator(
